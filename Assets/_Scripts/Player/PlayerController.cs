@@ -13,10 +13,12 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] float mvtSpeed;
 
-    //
-    public PlayerState playerState;
-
+    [Header("Scripts and Objects")]
+    [SerializeField] PlayerInteraction playerInteraction;
+    [HideInInspector] public PlayerState playerState;
     Inputs inputs;
+
+//
 
     void Awake(){
         inputs = new Inputs();
@@ -28,14 +30,10 @@ public class PlayerController : MonoBehaviour
         ToggleMvt(true);
     }
 
+//Toggle Stuff 
     public void ToggleMvt(bool b){
-        if (b){
-            inputs.Player.Move.Enable();
-            playerState = PlayerState.Standing;
-        }else{
-            inputs.Player.Move.Disable();
-            playerState = PlayerState.Frozen;
-        }
+        GetComponent<PlayerMovement>().enabled = b;
+        playerState = b ? PlayerState.Standing : PlayerState.Frozen;
     }
 
     public void ToggleLook(bool b){
@@ -45,6 +43,19 @@ public class PlayerController : MonoBehaviour
     public void Sit(){
         ToggleMvt(false);
         playerState = PlayerState.Sitting;
+        //
+        //TODO: Add animation to character cam
+        //TODO: Add a way to get up from sitting
+        //
+    }
+
+//
+
+    void OnInteract(InputValue value){
+        if (playerInteraction.currentInteractable != null){
+            playerInteraction.currentInteractable.Interact();
+        }
+        
     }
 
  //
