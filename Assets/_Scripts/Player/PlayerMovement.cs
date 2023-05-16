@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     Vector2 inputVector;
     Vector3 inputDir;
 
-
     void Awake(){
         cc = GetComponent<CharacterController>();
     }
@@ -25,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
         cc.Move(inputDir);
     }
 
-    public void OnMove(InputValue value){
+    void OnMove(InputValue value){
         inputVector = value.Get<Vector2>();
     }
 }
