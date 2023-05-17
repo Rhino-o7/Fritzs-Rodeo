@@ -9,7 +9,7 @@ public class Chair : MonoBehaviour, IInteractable
         pc = PlayerSettings.pc;
     }
     public void Interact(){
-        pc.Sit();
+        pc.Sit(transform);
     }
 }
     
