@@ -15,12 +15,17 @@ public class PlayerController : MonoBehaviour
 
     [Header("Scripts and Objects")]
     [SerializeField] PlayerInteraction playerInteraction;
-    [HideInInspector] public PlayerState playerState;
+    
+    public PlayerState playerState;
+
+    Animator animator;
     Inputs inputs;
 
 //
 
     void Awake(){
+        animator = GetComponent<Animator>();
+
         inputs = new Inputs();
         playerState = PlayerState.Loading;
         PlayerSettings.SetVars(this, inputs, xSensitivity, ySensitivity, mvtSpeed);
@@ -39,23 +44,46 @@ public class PlayerController : MonoBehaviour
     public void ToggleLook(bool b){
         GetComponent<PlayerLook>().enabled = b;
     }
-
-    public void Sit(){
-        ToggleMvt(false);
-        playerState = PlayerState.Sitting;
-        //
-        //TODO: Add animation to character cam
-        //TODO: Add a way to get up from sitting
-        //
+    public void ToggleInteraction(bool b){
+        playerInteraction.enabled = b;
     }
 
-//
+//Actions
+
+    public void Sit(Transform t){
+        playerInteraction.RemovePanel(false);
+        animator.SetTrigger("Sit");
+        transform.position = new Vector3(t.position.x, transform.position.y, t.position.z);
+
+
+        ToggleMvt(false);
+        ToggleInteraction(false);
+        playerState = PlayerState.Sitting;
+        
+    }
+
+    //This is called by an animation event in the standing animation
+    public void StandUnlock(){
+        ToggleMvt(true);
+        ToggleInteraction(true);
+        playerInteraction.AddPanel();
+    }
+    
+
+//Input Functions
 
     void OnInteract(InputValue value){
         if (playerInteraction.currentInteractable != null){
             playerInteraction.currentInteractable.Interact();
         }
         
+    }
+    void OnEsc(InputValue value){
+    //Switch from sitting to standing
+    //Note: may want to change to a different key than ESC
+        if (playerState == PlayerState.Sitting){
+            animator.SetTrigger("Stand");
+        }
     }
 
  //

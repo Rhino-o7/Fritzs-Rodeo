@@ -8,21 +8,31 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] UIManager UI;
     public IInteractable currentInteractable;
     void OnTriggerEnter(Collider c){
-        if (c.TryGetComponent<IInteractable>(out currentInteractable)){
-            //
-            //TODO: Add panel to UI for a prompt to sit
-            //
-            print(currentInteractable);
+        if (currentInteractable == null && c.TryGetComponent<IInteractable>(out currentInteractable)){ 
+            AddPanel();
         }
     }
 
     void OnTriggerExit(Collider c){
         if (c.TryGetComponent<IInteractable>(out currentInteractable)){
-            //
-            //TODO: Remove sitting prompt from UI 
-            //
+            RemovePanel(true);
+        }
+    }
+
+    public void AddPanel(){
+        print("Add " + currentInteractable + " Panel");
+
+        //TODO: Add panel to UI for interaction prompts using "UIManager" class
+        
+    }
+
+    public void RemovePanel(bool removeCurrentInteractable){
+        print("Rmove " + currentInteractable + " Panel");
+        
+        //TODO: remove panel to UI for interaction prompts
+
+        if (removeCurrentInteractable){
             currentInteractable = null;
-            print(currentInteractable);
         }
     }
 
