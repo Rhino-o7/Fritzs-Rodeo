@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     
     public PlayerState playerState;
 
+    OfficeControlls officeControlls;
     Animator animator;
     Inputs inputs;
 
@@ -25,12 +26,14 @@ public class PlayerController : MonoBehaviour
 
     void Awake(){
         animator = GetComponent<Animator>();
+        officeControlls = GetComponent<OfficeControlls>();
 
         inputs = new Inputs();
         playerState = PlayerState.Loading;
         PlayerSettings.SetVars(this, inputs, xSensitivity, ySensitivity, mvtSpeed);
     }
     void Start(){
+        officeControlls.enabled = false;
         ToggleLook(true);
         ToggleMvt(true);
     }
@@ -51,6 +54,7 @@ public class PlayerController : MonoBehaviour
 //Actions
 
     public void Sit(Transform t){
+        officeControlls.enabled = true;
         playerInteraction.RemovePanel(false);
         animator.SetTrigger("Sit");
         transform.position = new Vector3(t.position.x, transform.position.y, t.position.z);
@@ -64,6 +68,8 @@ public class PlayerController : MonoBehaviour
 
     //This is called by an animation event in the standing animation
     public void StandUnlock(){
+        
+        officeControlls.enabled = false;
         ToggleMvt(true);
         ToggleInteraction(true);
         playerInteraction.AddPanel();

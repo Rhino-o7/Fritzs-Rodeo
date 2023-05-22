@@ -71,6 +71,15 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleCams"",
+                    ""type"": ""Button"",
+                    ""id"": ""880e3998-dc82-4cda-9096-4e0f52dcf71a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -313,6 +322,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Esc"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e8815f6-e7f7-412b-9fac-f46205db220f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleCams"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -905,6 +925,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Esc = m_Player.FindAction("Esc", throwIfNotFound: true);
+        m_Player_ToggleCams = m_Player.FindAction("ToggleCams", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -983,6 +1004,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Esc;
+    private readonly InputAction m_Player_ToggleCams;
     public struct PlayerActions
     {
         private @Inputs m_Wrapper;
@@ -992,6 +1014,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Esc => m_Wrapper.m_Player_Esc;
+        public InputAction @ToggleCams => m_Wrapper.m_Player_ToggleCams;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1016,6 +1039,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @Esc.started += instance.OnEsc;
             @Esc.performed += instance.OnEsc;
             @Esc.canceled += instance.OnEsc;
+            @ToggleCams.started += instance.OnToggleCams;
+            @ToggleCams.performed += instance.OnToggleCams;
+            @ToggleCams.canceled += instance.OnToggleCams;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1035,6 +1061,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @Esc.started -= instance.OnEsc;
             @Esc.performed -= instance.OnEsc;
             @Esc.canceled -= instance.OnEsc;
+            @ToggleCams.started -= instance.OnToggleCams;
+            @ToggleCams.performed -= instance.OnToggleCams;
+            @ToggleCams.canceled -= instance.OnToggleCams;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1222,6 +1251,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnEsc(InputAction.CallbackContext context);
+        void OnToggleCams(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

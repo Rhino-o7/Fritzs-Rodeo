@@ -5,7 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] UIManager UI;
+    UIManager ui;
+    void Awake(){
+        ui = UIManager.ui;
+    }
     public IInteractable currentInteractable;
     void OnTriggerEnter(Collider c){
         if (currentInteractable == null && c.TryGetComponent<IInteractable>(out currentInteractable)){ 
@@ -20,16 +23,14 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     public void AddPanel(){
-        print("Add " + currentInteractable + " Panel");
-
-        //TODO: Add panel to UI for interaction prompts using "UIManager" class
+        if (currentInteractable != null){
+            ui.AddInteraction(currentInteractable.interactSprite);
+        }
         
     }
 
     public void RemovePanel(bool removeCurrentInteractable){
-        print("Rmove " + currentInteractable + " Panel");
-        
-        //TODO: remove panel to UI for interaction prompts
+        ui.RemoveInteraction();
 
         if (removeCurrentInteractable){
             currentInteractable = null;
