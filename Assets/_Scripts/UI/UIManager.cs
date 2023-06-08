@@ -11,21 +11,32 @@ public class UIManager : MonoBehaviour
     
     void Awake(){
         ui = this;
+        
+    }
+    
+    IEnumerator Start(){// Wait until fist frame to render UI and then disable to avoid lag spike
+        interactUI.gameObject.SetActive(true);
+        camUI.gameObject.SetActive(true);
+        yield return 0;
+        interactUI.gameObject.SetActive(false);
+        camUI.gameObject.SetActive(false);
+
     }
 
-    public void AddInteraction(Sprite interactionSprite){
+    public void AddInteraction(IInteractable interactable){
+        if (!interactUI.gameObject.activeSelf){
+            interactUI.gameObject.SetActive(true);
+        }
         
-
-        //TODO: Add UI elements with "InteractUI.cs"
-
-
+        interactUI.interactTxt.text = interactable.interactionName;
 
     }
     public void RemoveInteraction(){
+        if (interactUI){
+            interactUI.interactTxt.text = "";
+            interactUI.gameObject.SetActive(false);
+        }
         
-
-        //TODO: Remove UI elements
-
     }
 
     public void ToggleCams(bool b){

@@ -47,21 +47,20 @@ public class PlayerController : MonoBehaviour
     public void ToggleLook(bool b){
         GetComponent<PlayerLook>().enabled = b;
     }
-    public void ToggleInteraction(bool b){
-        playerInteraction.enabled = b;
-    }
 
 //Actions
 
     public void Sit(Transform t){
         officeControlls.enabled = true;
-        playerInteraction.RemovePanel(false);
+        
+
+        
+
         animator.SetTrigger("Sit");
         transform.position = new Vector3(t.position.x, transform.position.y, t.position.z);
 
-
+        playerInteraction.gameObject.SetActive(false);
         ToggleMvt(false);
-        ToggleInteraction(false);
         playerState = PlayerState.Sitting;
         
     }
@@ -71,16 +70,15 @@ public class PlayerController : MonoBehaviour
         
         officeControlls.enabled = false;
         ToggleMvt(true);
-        ToggleInteraction(true);
-        playerInteraction.AddPanel();
+        playerInteraction.gameObject.SetActive(true);
     }
     
 
 //Input Functions
 
     void OnInteract(InputValue value){
-        if (playerInteraction.currentInteractable != null){
-            playerInteraction.currentInteractable.Interact();
+        if (playerInteraction.currentInteractable[0] != null){
+            playerInteraction.currentInteractable[0].Interact();
         }
         
     }
