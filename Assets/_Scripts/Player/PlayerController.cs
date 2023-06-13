@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
 
     OfficeControlls officeControlls;
     Animator animator;
-    Inputs inputs;
+    public static Inputs inputs;
+
 
 //
 
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
         inputs = new Inputs();
         playerState = PlayerState.Loading;
-        PlayerSettings.SetVars(this, inputs, xSensitivity, ySensitivity, mvtSpeed);
+        PlayerSettings.SetVars(this, xSensitivity, ySensitivity, mvtSpeed);
     }
     void Start(){
         officeControlls.enabled = false;
@@ -52,10 +53,7 @@ public class PlayerController : MonoBehaviour
 
     public void Sit(Transform t){
         officeControlls.enabled = true;
-        
-
-        
-
+    
         animator.SetTrigger("Sit");
         transform.position = new Vector3(t.position.x, transform.position.y, t.position.z);
 
@@ -77,19 +75,19 @@ public class PlayerController : MonoBehaviour
 //Input Functions
 
     void OnInteract(InputValue value){
+        if (playerState == PlayerState.Sitting){
+            officeControlls.ToggleCams(false);
+            animator.SetTrigger("Stand");
+        }
         if (playerInteraction.currentInteractable[0] != null){
             playerInteraction.currentInteractable[0].Interact();
         }
-        
     }
+    
     void OnEsc(InputValue value){
-    //Switch from sitting to standing
-    //Note: may want to change to a different key than ESC
-        if (playerState == PlayerState.Sitting){
-            animator.SetTrigger("Stand");
-        }
+        //TODO: Add settings
     }
 
- //
+ 
 
 }

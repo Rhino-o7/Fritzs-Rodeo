@@ -853,6 +853,54 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Cams"",
+            ""id"": ""910b8b9c-0f95-4870-b02b-7d154141b227"",
+            ""actions"": [
+                {
+                    ""name"": ""Next"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c6cfff0-43ec-4526-8816-6a3f36e52fa7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3d62921-566a-4d50-a1fe-80e732b7a319"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b146b303-049c-4caf-937c-26efa09993d7"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a14e6fb-5076-4cde-bb19-686b6921a5a2"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -938,6 +986,10 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Cams
+        m_Cams = asset.FindActionMap("Cams", throwIfNotFound: true);
+        m_Cams_Next = m_Cams.FindAction("Next", throwIfNotFound: true);
+        m_Cams_Back = m_Cams.FindAction("Back", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1199,6 +1251,60 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Cams
+    private readonly InputActionMap m_Cams;
+    private List<ICamsActions> m_CamsActionsCallbackInterfaces = new List<ICamsActions>();
+    private readonly InputAction m_Cams_Next;
+    private readonly InputAction m_Cams_Back;
+    public struct CamsActions
+    {
+        private @Inputs m_Wrapper;
+        public CamsActions(@Inputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Next => m_Wrapper.m_Cams_Next;
+        public InputAction @Back => m_Wrapper.m_Cams_Back;
+        public InputActionMap Get() { return m_Wrapper.m_Cams; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CamsActions set) { return set.Get(); }
+        public void AddCallbacks(ICamsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CamsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CamsActionsCallbackInterfaces.Add(instance);
+            @Next.started += instance.OnNext;
+            @Next.performed += instance.OnNext;
+            @Next.canceled += instance.OnNext;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
+        }
+
+        private void UnregisterCallbacks(ICamsActions instance)
+        {
+            @Next.started -= instance.OnNext;
+            @Next.performed -= instance.OnNext;
+            @Next.canceled -= instance.OnNext;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
+        }
+
+        public void RemoveCallbacks(ICamsActions instance)
+        {
+            if (m_Wrapper.m_CamsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICamsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CamsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CamsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CamsActions @Cams => new CamsActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1265,5 +1371,10 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface ICamsActions
+    {
+        void OnNext(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
 }

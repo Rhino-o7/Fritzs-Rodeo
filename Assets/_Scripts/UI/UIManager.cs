@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class UIManager : MonoBehaviour
 {
     public static UIManager ui;
-    [SerializeField] CamUI camUI;
     [SerializeField] InteractUI interactUI;
     
     void Awake(){
@@ -16,10 +15,9 @@ public class UIManager : MonoBehaviour
     
     IEnumerator Start(){// Wait until fist frame to render UI and then disable to avoid lag spike
         interactUI.gameObject.SetActive(true);
-        camUI.gameObject.SetActive(true);
         yield return 0;
         interactUI.gameObject.SetActive(false);
-        camUI.gameObject.SetActive(false);
+       
 
     }
 
@@ -39,12 +37,6 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void ToggleCams(bool b){
-        camUI.gameObject.SetActive(b);
-
-
-        //TODO: Add UI elements and cameras with "CamUI.cs"
-
-    }
+    
 
 }

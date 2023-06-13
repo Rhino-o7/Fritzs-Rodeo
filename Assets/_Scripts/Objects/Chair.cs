@@ -18,7 +18,9 @@ public class Chair : MonoBehaviour, IInteractable
         
     }
     public void Interact(){
-        pc.Sit(transform);
+        if (pc.playerState != PlayerState.Sitting){
+            pc.Sit(transform);
+        }
     }
 
    
