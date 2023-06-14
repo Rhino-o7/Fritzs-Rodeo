@@ -6,36 +6,55 @@ using UnityEngine.InputSystem;
 public class PlayerInteraction : MonoBehaviour
 {
     UIManager ui;
+    public List<IInteractable> currentInteractable;
     void Awake(){
         ui = UIManager.ui;
+        currentInteractable = new List<IInteractable>();
     }
-    public IInteractable currentInteractable;
+    
+
     void OnTriggerEnter(Collider c){
-        if (currentInteractable == null && c.TryGetComponent<IInteractable>(out currentInteractable)){ 
-            AddPanel();
+        IInteractable _tempInteract;
+        if (c.TryGetComponent<IInteractable>(out _tempInteract)){
+            
+            if (currentInteractable.Contains(_tempInteract)){
+                currentInteractable.Remove(_tempInteract);
+            }
+            currentInteractable.Insert(0, _tempInteract);
+            ui.AddInteraction(_tempInteract);
         }
     }
 
     void OnTriggerExit(Collider c){
-        if (c.TryGetComponent<IInteractable>(out currentInteractable)){
-            RemovePanel(true);
+        IInteractable _tempInteract = c.GetComponent<IInteractable>();
+        if (_tempInteract != null && currentInteractable.Contains(_tempInteract)){
+            currentInteractable.Remove(_tempInteract);
         }
-    }
-
-    public void AddPanel(){
-        if (currentInteractable != null){
-            ui.AddInteraction(currentInteractable.interactSprite);
+        if (currentInteractable.Count == 0){
+            ui.RemoveInteraction();
+        }else{
+            ui.AddInteraction(currentInteractable[0]);
         }
         
     }
 
-    public void RemovePanel(bool removeCurrentInteractable){
-        ui.RemoveInteraction();
 
-        if (removeCurrentInteractable){
-            currentInteractable = null;
+    void OnEnable(){
+        if (currentInteractable.Count > 0){
+            ui.AddInteraction(currentInteractable[0]);
         }
     }
+
+    void OnDisable(){
+        ui.RemoveInteraction();
+    }
+
+
+    
+
+    
+
+    
 
     
 }

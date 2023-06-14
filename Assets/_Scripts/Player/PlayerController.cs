@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
 
     OfficeControlls officeControlls;
     Animator animator;
-    Inputs inputs;
+    public static Inputs inputs;
+
 
 //
 
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
         inputs = new Inputs();
         playerState = PlayerState.Loading;
-        PlayerSettings.SetVars(this, inputs, xSensitivity, ySensitivity, mvtSpeed);
+        PlayerSettings.SetVars(this, xSensitivity, ySensitivity, mvtSpeed);
     }
     void Start(){
         officeControlls.enabled = false;
@@ -47,21 +48,17 @@ public class PlayerController : MonoBehaviour
     public void ToggleLook(bool b){
         GetComponent<PlayerLook>().enabled = b;
     }
-    public void ToggleInteraction(bool b){
-        playerInteraction.enabled = b;
-    }
 
 //Actions
 
     public void Sit(Transform t){
         officeControlls.enabled = true;
-        playerInteraction.RemovePanel(false);
+    
         animator.SetTrigger("Sit");
         transform.position = new Vector3(t.position.x, transform.position.y, t.position.z);
 
-
+        playerInteraction.gameObject.SetActive(false);
         ToggleMvt(false);
-        ToggleInteraction(false);
         playerState = PlayerState.Sitting;
         
     }
@@ -71,27 +68,26 @@ public class PlayerController : MonoBehaviour
         
         officeControlls.enabled = false;
         ToggleMvt(true);
-        ToggleInteraction(true);
-        playerInteraction.AddPanel();
+        playerInteraction.gameObject.SetActive(true);
     }
     
 
 //Input Functions
 
     void OnInteract(InputValue value){
-        if (playerInteraction.currentInteractable != null){
-            playerInteraction.currentInteractable.Interact();
-        }
-        
-    }
-    void OnEsc(InputValue value){
-    //Switch from sitting to standing
-    //Note: may want to change to a different key than ESC
         if (playerState == PlayerState.Sitting){
+            officeControlls.ToggleCams(false);
             animator.SetTrigger("Stand");
         }
+        if (playerInteraction.currentInteractable[0] != null){
+            playerInteraction.currentInteractable[0].Interact();
+        }
+    }
+    
+    void OnEsc(InputValue value){
+        //TODO: Add settings
     }
 
- //
+ 
 
 }

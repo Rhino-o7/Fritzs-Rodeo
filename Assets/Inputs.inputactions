@@ -831,6 +831,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Cams",
+            "id": "910b8b9c-0f95-4870-b02b-7d154141b227",
+            "actions": [
+                {
+                    "name": "Next",
+                    "type": "Button",
+                    "id": "4c6cfff0-43ec-4526-8816-6a3f36e52fa7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "a3d62921-566a-4d50-a1fe-80e732b7a319",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b146b303-049c-4caf-937c-26efa09993d7",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a14e6fb-5076-4cde-bb19-686b6921a5a2",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
