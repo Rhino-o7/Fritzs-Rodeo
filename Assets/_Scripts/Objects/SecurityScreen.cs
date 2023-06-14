@@ -6,7 +6,7 @@ public class SecurityScreen : MonoBehaviour
 {
     public List<Material> SecurityCamMats; 
     int camIndex = 0;
-    MeshRenderer meshRenderer;
+    MeshRenderer meshRenderer; 
 
     void Awake(){
         meshRenderer = GetComponent<MeshRenderer>();
