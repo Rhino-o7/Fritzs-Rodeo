@@ -66,7 +66,6 @@ public class PlayerController : MonoBehaviour
     //This is called by an animation event in the standing animation
     public void StandUnlock(){
         
-        officeControlls.enabled = false;
         ToggleMvt(true);
         playerInteraction.gameObject.SetActive(true);
     }
@@ -78,6 +77,7 @@ public class PlayerController : MonoBehaviour
         if (playerState == PlayerState.Sitting){
             officeControlls.ToggleCams(false);
             animator.SetTrigger("Stand");
+            officeControlls.enabled = false;
         }
         if (playerInteraction.currentInteractable[0] != null){
             playerInteraction.currentInteractable[0].Interact();

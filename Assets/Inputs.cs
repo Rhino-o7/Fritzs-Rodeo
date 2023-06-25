@@ -901,6 +901,94 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Office"",
+            ""id"": ""675476af-4835-404d-a283-03de89bc7225"",
+            ""actions"": [
+                {
+                    ""name"": ""ToggleCams"",
+                    ""type"": ""Button"",
+                    ""id"": ""9358def2-1521-41d0-b49f-805bb3be0a84"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DoorL"",
+                    ""type"": ""Button"",
+                    ""id"": ""c5aa79ef-6f22-4463-82c9-b64e49a6a0ed"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DoorR"",
+                    ""type"": ""Button"",
+                    ""id"": ""15076e25-37d5-453a-982c-e8f72f182f13"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Blackout"",
+                    ""type"": ""Button"",
+                    ""id"": ""12633edb-ded6-4642-9fa3-713822769ae8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""8b30dad8-6f4d-4f32-9f3a-acd921d646b0"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleCams"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f55d7ba4-09a9-4252-8dd4-af9ba964aed5"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DoorL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e151de9a-1aea-4558-975a-fb79c5c3a6d6"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Blackout"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59c149de-3303-4f1d-ab76-eea32c08f7aa"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DoorR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -990,6 +1078,12 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_Cams = asset.FindActionMap("Cams", throwIfNotFound: true);
         m_Cams_Next = m_Cams.FindAction("Next", throwIfNotFound: true);
         m_Cams_Back = m_Cams.FindAction("Back", throwIfNotFound: true);
+        // Office
+        m_Office = asset.FindActionMap("Office", throwIfNotFound: true);
+        m_Office_ToggleCams = m_Office.FindAction("ToggleCams", throwIfNotFound: true);
+        m_Office_DoorL = m_Office.FindAction("DoorL", throwIfNotFound: true);
+        m_Office_DoorR = m_Office.FindAction("DoorR", throwIfNotFound: true);
+        m_Office_Blackout = m_Office.FindAction("Blackout", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1305,6 +1399,76 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         }
     }
     public CamsActions @Cams => new CamsActions(this);
+
+    // Office
+    private readonly InputActionMap m_Office;
+    private List<IOfficeActions> m_OfficeActionsCallbackInterfaces = new List<IOfficeActions>();
+    private readonly InputAction m_Office_ToggleCams;
+    private readonly InputAction m_Office_DoorL;
+    private readonly InputAction m_Office_DoorR;
+    private readonly InputAction m_Office_Blackout;
+    public struct OfficeActions
+    {
+        private @Inputs m_Wrapper;
+        public OfficeActions(@Inputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ToggleCams => m_Wrapper.m_Office_ToggleCams;
+        public InputAction @DoorL => m_Wrapper.m_Office_DoorL;
+        public InputAction @DoorR => m_Wrapper.m_Office_DoorR;
+        public InputAction @Blackout => m_Wrapper.m_Office_Blackout;
+        public InputActionMap Get() { return m_Wrapper.m_Office; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(OfficeActions set) { return set.Get(); }
+        public void AddCallbacks(IOfficeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_OfficeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OfficeActionsCallbackInterfaces.Add(instance);
+            @ToggleCams.started += instance.OnToggleCams;
+            @ToggleCams.performed += instance.OnToggleCams;
+            @ToggleCams.canceled += instance.OnToggleCams;
+            @DoorL.started += instance.OnDoorL;
+            @DoorL.performed += instance.OnDoorL;
+            @DoorL.canceled += instance.OnDoorL;
+            @DoorR.started += instance.OnDoorR;
+            @DoorR.performed += instance.OnDoorR;
+            @DoorR.canceled += instance.OnDoorR;
+            @Blackout.started += instance.OnBlackout;
+            @Blackout.performed += instance.OnBlackout;
+            @Blackout.canceled += instance.OnBlackout;
+        }
+
+        private void UnregisterCallbacks(IOfficeActions instance)
+        {
+            @ToggleCams.started -= instance.OnToggleCams;
+            @ToggleCams.performed -= instance.OnToggleCams;
+            @ToggleCams.canceled -= instance.OnToggleCams;
+            @DoorL.started -= instance.OnDoorL;
+            @DoorL.performed -= instance.OnDoorL;
+            @DoorL.canceled -= instance.OnDoorL;
+            @DoorR.started -= instance.OnDoorR;
+            @DoorR.performed -= instance.OnDoorR;
+            @DoorR.canceled -= instance.OnDoorR;
+            @Blackout.started -= instance.OnBlackout;
+            @Blackout.performed -= instance.OnBlackout;
+            @Blackout.canceled -= instance.OnBlackout;
+        }
+
+        public void RemoveCallbacks(IOfficeActions instance)
+        {
+            if (m_Wrapper.m_OfficeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IOfficeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_OfficeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_OfficeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public OfficeActions @Office => new OfficeActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1376,5 +1540,12 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     {
         void OnNext(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
+    }
+    public interface IOfficeActions
+    {
+        void OnToggleCams(InputAction.CallbackContext context);
+        void OnDoorL(InputAction.CallbackContext context);
+        void OnDoorR(InputAction.CallbackContext context);
+        void OnBlackout(InputAction.CallbackContext context);
     }
 }
