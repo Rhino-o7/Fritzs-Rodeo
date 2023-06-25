@@ -879,6 +879,94 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Office",
+            "id": "675476af-4835-404d-a283-03de89bc7225",
+            "actions": [
+                {
+                    "name": "ToggleCams",
+                    "type": "Button",
+                    "id": "9358def2-1521-41d0-b49f-805bb3be0a84",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DoorL",
+                    "type": "Button",
+                    "id": "c5aa79ef-6f22-4463-82c9-b64e49a6a0ed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DoorR",
+                    "type": "Button",
+                    "id": "15076e25-37d5-453a-982c-e8f72f182f13",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Blackout",
+                    "type": "Button",
+                    "id": "12633edb-ded6-4642-9fa3-713822769ae8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8b30dad8-6f4d-4f32-9f3a-acd921d646b0",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleCams",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f55d7ba4-09a9-4252-8dd4-af9ba964aed5",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DoorL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e151de9a-1aea-4558-975a-fb79c5c3a6d6",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Blackout",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59c149de-3303-4f1d-ab76-eea32c08f7aa",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DoorR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

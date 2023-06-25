@@ -29,12 +29,10 @@ public class SecurityCam : MonoBehaviour
         while (moveTimer < rotateTime){
             moveTimer += Time.deltaTime;
             transform.rotation = rotation * Quaternion.AngleAxis(moveTimer / rotateTime * rotateAngle * dir, Vector3.up);
-            print("move");
             yield return null;
         }
         while (moveTimer >= rotateTime && stopTimer < pauseTime){
             stopTimer += Time.deltaTime;
-            print("Stop");
             yield return null;
         }
         
