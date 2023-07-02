@@ -17,8 +17,11 @@ public class OfficeControlls : MonoBehaviour
         pc = PlayerSettings.pc;
         ui = UIManager.ui;
         inputs = PlayerController.inputs;
-        rDoor = doors.transform.GetChild(0).GetComponent<Animator>();
-        lDoor = doors.transform.GetChild(1).GetComponent<Animator>();
+        if (doors){
+            rDoor = doors.transform.GetChild(0).GetComponent<Animator>();
+            lDoor = doors.transform.GetChild(1).GetComponent<Animator>();
+        }
+        
         
 
     }
@@ -52,10 +55,14 @@ public class OfficeControlls : MonoBehaviour
     }
 
     void NextCam(InputAction.CallbackContext _ct){
-        securityScreen.CycleCam(1);
+        if (securityScreen){
+            securityScreen.CycleCam(1);
+        }
     }
     void LastCam(InputAction.CallbackContext _ct){
-        securityScreen.CycleCam(-1);
+        if (securityScreen){
+            securityScreen.CycleCam(-1);
+        }
     }
 
     void LeftDoor(InputAction.CallbackContext _ct){
