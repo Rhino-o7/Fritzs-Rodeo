@@ -5,6 +5,7 @@ using UnityEngine;
 public class Chair : MonoBehaviour, IInteractable
 {
     [SerializeField] string interactName;
+    [SerializeField] Transform sitPoint;
     
     public string interactionName{
         get {return interactName;}
@@ -19,7 +20,7 @@ public class Chair : MonoBehaviour, IInteractable
     }
     public void Interact(){
         if (pc.playerState != PlayerState.Sitting){
-            pc.Sit(transform);
+            pc.Sit(sitPoint);
         }
     }
 
