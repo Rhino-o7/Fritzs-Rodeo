@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("Stand");
             officeControlls.enabled = false;
         }
-        if (playerInteraction.currentInteractable[0] != null){
+        if (playerInteraction.currentInteractable.Count > 0 && playerInteraction.currentInteractable[0] != null){
             playerInteraction.currentInteractable[0].Interact();
         }
     }
