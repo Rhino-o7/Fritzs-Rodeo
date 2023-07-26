@@ -22,9 +22,9 @@ public class Flashlight : MonoBehaviour
     void FlashLightManger() {
         //batteryText.text = "Battery : " + battery + "%";
 
-        if (Input.GetKeyDown(KeyCode.F) && battery > 0) {
+        if (Input.GetKeyDown(KeyCode.F) /*&& battery > 0*/) {
             Light.SetActive(!Light.activeSelf);
-            batteryText.gameObject.SetActive(Light.activeSelf);
+            //batteryText.gameObject.SetActive(Light.activeSelf);
         }
 
         /*if (Light.activeInHierarchy) {
