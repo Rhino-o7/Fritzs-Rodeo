@@ -12,6 +12,8 @@ public class Vent : MonoBehaviour, IInteractable
 
     public void Interact(){
         print("Vent");
+        //  TODO: Add animation of vent
+        
     }
 
     
